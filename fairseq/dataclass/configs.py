@@ -108,7 +108,7 @@ class CommonConfig(FairseqDataclass):
             "help": "log progress every N batches (when progress bar is disabled)"
         },
     )
-    log_format: Optional[LOG_FORMAT_CHOICES] = field(
+    log_format: Optional[LOG_FORMAT_CHOICES] = field( # type: ignore
         default=None, metadata={"help": "log format to use"}
     )
     log_file: Optional[str] = field(
@@ -298,10 +298,10 @@ class DistributedTrainingConfig(FairseqDataclass):
             "help": "do not spawn multiple processes even if multiple GPUs are visible"
         },
     )
-    ddp_backend: DDP_BACKEND_CHOICES = field(
+    ddp_backend: DDP_BACKEND_CHOICES = field( # type: ignore
         default="pytorch_ddp", metadata={"help": "DistributedDataParallel backend"}
     )
-    ddp_comm_hook: DDP_COMM_HOOK_CHOICES = field(
+    ddp_comm_hook: DDP_COMM_HOOK_CHOICES = field( # type: ignore
         default="none", metadata={"help": "communication hook"}
     )
     bucket_cap_mb: int = field(
@@ -428,11 +428,11 @@ class DistributedTrainingConfig(FairseqDataclass):
             "equal the length of the --pipeline-decoder-balance argument"
         },
     )
-    pipeline_checkpoint: PIPELINE_CHECKPOINT_CHOICES = field(
+    pipeline_checkpoint: PIPELINE_CHECKPOINT_CHOICES = field( # type: ignore
         default="never",
         metadata={"help": "checkpointing mode for pipeline model parallelism"},
     )
-    zero_sharding: ZERO_SHARDING_CHOICES = field(
+    zero_sharding: ZERO_SHARDING_CHOICES = field( # type: ignore
         default="none", metadata={"help": "ZeRO sharding"}
     )
     fp16: bool = II("common.fp16")

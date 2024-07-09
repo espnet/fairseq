@@ -23,14 +23,14 @@ if TYPE_CHECKING:
     from fairseq.modules.multihead_attention import MultiheadAttention
 
 try:
-    from amp_C import multi_tensor_l2norm
+    from amp_C import multi_tensor_l2norm # type: ignore
 
     multi_tensor_l2norm_available = True
 except ImportError:
     multi_tensor_l2norm_available = False
 
 try:
-    import torch_xla.core.xla_model as xm
+    import torch_xla.core.xla_model as xm # type: ignore
 except ImportError:
     xm = None
 
@@ -128,7 +128,7 @@ def move_to_cpu(sample):
 
 def move_to_tpu(sample):
 
-    import torch_xla.core.xla_model as xm
+    import torch_xla.core.xla_model as xm # type: ignore
 
     device = xm.xla_device()
 
@@ -714,8 +714,8 @@ def get_tpu_device():
 
 
 def tpu_data_loader(itr):
-    import torch_xla.core.xla_model as xm
-    import torch_xla.distributed.parallel_loader as pl
+    import torch_xla.core.xla_model as xm # type: ignore
+    import torch_xla.distributed.parallel_loader as pl # type: ignore
 
     from fairseq.data import iterators
 
@@ -746,7 +746,7 @@ def index_put(tensor, indices, value):
 
 
 def xla_device_to_cpu(dat):
-    import torch_xla.core.xla_model as xm
+    import torch_xla.core.xla_model as xm # type: ignore
 
     return xm._maybe_convert_to_cpu(dat)
 
@@ -890,7 +890,7 @@ def hotreload_function(name=None):
         * Need to launch train.py locally (cannot submit jobs)
     """
     try:
-        import jurigged
+        import jurigged # type: ignore
     except ImportError as e:
         logger.warning("Please install jurigged: pip install jurigged[develoop]")
         raise e
