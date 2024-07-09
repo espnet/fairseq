@@ -6,8 +6,9 @@
 import logging
 
 import torch
-from fairseq import optim
 from omegaconf import DictConfig
+
+from fairseq import optim
 
 logger = logging.getLogger(__name__)
 

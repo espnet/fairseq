@@ -4,8 +4,10 @@
 # LICENSE file in the root directory of this source tree.
 
 import logging
+
 import numpy as np
 import torch.utils.data
+
 from fairseq.data import data_utils
 
 logger = logging.getLogger(__name__)

@@ -8,6 +8,7 @@ from collections import Counter
 from multiprocessing import Pool
 
 import torch
+
 # from fairseq import utils
 # from fairseq.data import data_utils
 # from fairseq.file_chunker_utils import Chunker, find_offsets
@@ -358,7 +359,7 @@ class Dictionary:
             chunks = zip(offsets, offsets[1:])
             pool = Pool(processes=num_workers)
             results = []
-            for (start_offset, end_offset) in chunks:
+            for start_offset, end_offset in chunks:
                 results.append(
                     pool.apply_async(
                         Dictionary._add_file_to_dictionary_single_worker,

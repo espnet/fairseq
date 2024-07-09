@@ -18,16 +18,15 @@ from typing import Any, Dict, Optional, Union
 
 import numpy as np
 import torch
+from omegaconf import DictConfig, OmegaConf, open_dict
+
 from fairseq.data import data_utils
 from fairseq.dataclass.configs import CheckpointConfig
-from fairseq.dataclass.utils import (
-    convert_namespace_to_omegaconf,
-    overwrite_args_by_name,
-)
+from fairseq.dataclass.utils import (convert_namespace_to_omegaconf,
+                                     overwrite_args_by_name)
 from fairseq.distributed.fully_sharded_data_parallel import FSDP, has_FSDP
 from fairseq.file_io import PathManager
 from fairseq.models import FairseqDecoder, FairseqEncoder
-from omegaconf import DictConfig, OmegaConf, open_dict
 
 logger = logging.getLogger(__name__)
 
@@ -100,9 +99,9 @@ def save_checkpoint(cfg: CheckpointConfig, trainer, epoch_itr, val_loss):
                 cfg.best_checkpoint_metric, val_loss, rand_sfx, suffix
             )
         ] = worst_best is None or is_better(val_loss, worst_best)
-    checkpoint_conds[
-        "checkpoint_last{}.pt".format(suffix)
-    ] = not cfg.no_last_checkpoints
+    checkpoint_conds["checkpoint_last{}.pt".format(suffix)] = (
+        not cfg.no_last_checkpoints
+    )
 
     extra_state = {
         "train_iterator": epoch_itr.state_dict(),
@@ -116,7 +115,9 @@ def save_checkpoint(cfg: CheckpointConfig, trainer, epoch_itr, val_loss):
     # attributes
     if hasattr(trainer.task, "get_checkpoint_dict"):
         extra_state = {**extra_state, **trainer.task.get_checkpoint_dict()}
-        logger.info(f"State of {trainer.task.__class__.__name__} is ready to be persisted with the checkpoint")
+        logger.info(
+            f"State of {trainer.task.__class__.__name__} is ready to be persisted with the checkpoint"
+        )
 
     if hasattr(save_checkpoint, "best"):
         extra_state.update({"best": save_checkpoint.best})

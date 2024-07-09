@@ -7,12 +7,13 @@ import contextlib
 from typing import Optional
 
 import torch
+
 from fairseq.dataclass.configs import DistributedTrainingConfig
 from fairseq.distributed import utils as dist_utils
 
-
 try:
-    from fairscale.nn.data_parallel import FullyShardedDataParallel as FSDP # type: ignore
+    from fairscale.nn.data_parallel import \
+        FullyShardedDataParallel as FSDP  # type: ignore
 
     has_FSDP = True
 except ImportError:
@@ -91,7 +92,7 @@ class DummyProcessGroup:
 @contextlib.contextmanager
 def fsdp_enable_wrap(cfg: DistributedTrainingConfig):
     try:
-        from fairscale.nn import enable_wrap # type: ignore
+        from fairscale.nn import enable_wrap  # type: ignore
     except ImportError:
         raise ImportError(
             "Cannot find FullyShardedDataParallel. "
@@ -131,7 +132,7 @@ def fsdp_wrap(module, min_num_params: Optional[int] = None, **kwargs):
         min_num_params (int, Optional): minimum number of layer params to wrap
     """
     try:
-        from fairscale.nn import wrap # type: ignore
+        from fairscale.nn import wrap  # type: ignore
 
         if min_num_params is not None:
             num_params = sum(p.numel() for p in module.parameters())

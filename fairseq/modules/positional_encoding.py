@@ -3,9 +3,10 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-import torch.nn as nn
 import math
+
 import torch
+import torch.nn as nn
 
 
 class PositionalEncoding(nn.Module):

@@ -6,8 +6,9 @@
 from typing import Dict, List, Optional, Tuple
 
 import torch.nn as nn
-from fairseq import utils
 from torch import Tensor
+
+from fairseq import utils
 
 
 class FairseqDecoder(nn.Module):

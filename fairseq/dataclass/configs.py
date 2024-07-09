@@ -11,17 +11,15 @@ from typing import Any, List, Optional
 import torch
 from omegaconf import II, MISSING
 
-from fairseq.dataclass.constants import (
-    DATASET_IMPL_CHOICES,
-    DDP_BACKEND_CHOICES,
-    DDP_COMM_HOOK_CHOICES,
-    GENERATION_CONSTRAINTS_CHOICES,
-    GENERATION_DECODING_FORMAT_CHOICES,
-    LOG_FORMAT_CHOICES,
-    PIPELINE_CHECKPOINT_CHOICES,
-    PRINT_ALIGNMENT_CHOICES,
-    ZERO_SHARDING_CHOICES,
-)
+from fairseq.dataclass.constants import (DATASET_IMPL_CHOICES,
+                                         DDP_BACKEND_CHOICES,
+                                         DDP_COMM_HOOK_CHOICES,
+                                         GENERATION_CONSTRAINTS_CHOICES,
+                                         GENERATION_DECODING_FORMAT_CHOICES,
+                                         LOG_FORMAT_CHOICES,
+                                         PIPELINE_CHECKPOINT_CHOICES,
+                                         PRINT_ALIGNMENT_CHOICES,
+                                         ZERO_SHARDING_CHOICES)
 
 
 @dataclass
@@ -108,7 +106,7 @@ class CommonConfig(FairseqDataclass):
             "help": "log progress every N batches (when progress bar is disabled)"
         },
     )
-    log_format: Optional[LOG_FORMAT_CHOICES] = field( # type: ignore
+    log_format: Optional[LOG_FORMAT_CHOICES] = field(  # type: ignore
         default=None, metadata={"help": "log format to use"}
     )
     log_file: Optional[str] = field(
@@ -298,10 +296,10 @@ class DistributedTrainingConfig(FairseqDataclass):
             "help": "do not spawn multiple processes even if multiple GPUs are visible"
         },
     )
-    ddp_backend: DDP_BACKEND_CHOICES = field( # type: ignore
+    ddp_backend: DDP_BACKEND_CHOICES = field(  # type: ignore
         default="pytorch_ddp", metadata={"help": "DistributedDataParallel backend"}
     )
-    ddp_comm_hook: DDP_COMM_HOOK_CHOICES = field( # type: ignore
+    ddp_comm_hook: DDP_COMM_HOOK_CHOICES = field(  # type: ignore
         default="none", metadata={"help": "communication hook"}
     )
     bucket_cap_mb: int = field(
@@ -428,11 +426,11 @@ class DistributedTrainingConfig(FairseqDataclass):
             "equal the length of the --pipeline-decoder-balance argument"
         },
     )
-    pipeline_checkpoint: PIPELINE_CHECKPOINT_CHOICES = field( # type: ignore
+    pipeline_checkpoint: PIPELINE_CHECKPOINT_CHOICES = field(  # type: ignore
         default="never",
         metadata={"help": "checkpointing mode for pipeline model parallelism"},
     )
-    zero_sharding: ZERO_SHARDING_CHOICES = field( # type: ignore
+    zero_sharding: ZERO_SHARDING_CHOICES = field(  # type: ignore
         default="none", metadata={"help": "ZeRO sharding"}
     )
     fp16: bool = II("common.fp16")
@@ -488,7 +486,7 @@ class DatasetConfig(FairseqDataclass):
             "help": "maximum sequence length in batch will be a multiplier of this value"
         },
     )
-    dataset_impl: Optional[DATASET_IMPL_CHOICES] = field( # type: ignore
+    dataset_impl: Optional[DATASET_IMPL_CHOICES] = field(  # type: ignore
         default=None, metadata={"help": "output dataset implementation"}
     )
     data_buffer_size: int = field(
@@ -921,7 +919,7 @@ class GenerationConfig(FairseqDataclass):
             "help": "sample from the smallest set whose cumulative probability mass exceeds p for next words"
         },
     )
-    constraints: Optional[GENERATION_CONSTRAINTS_CHOICES] = field( # type: ignore
+    constraints: Optional[GENERATION_CONSTRAINTS_CHOICES] = field(  # type: ignore
         default=None,
         metadata={
             "help": "enables lexically constrained decoding",
@@ -944,7 +942,7 @@ class GenerationConfig(FairseqDataclass):
         default=-1.0,
         metadata={"help": "strength of diversity penalty for Diverse Siblings Search"},
     )
-    print_alignment: Optional[PRINT_ALIGNMENT_CHOICES] = field( # type: ignore
+    print_alignment: Optional[PRINT_ALIGNMENT_CHOICES] = field(  # type: ignore
         default=None,
         metadata={
             "help": "if set, uses attention feedback to compute and print alignment to source tokens "
@@ -1012,7 +1010,7 @@ class GenerationConfig(FairseqDataclass):
         },
     )
     # special decoding format for advanced decoding.
-    decoding_format: Optional[GENERATION_DECODING_FORMAT_CHOICES] = field( # type: ignore
+    decoding_format: Optional[GENERATION_DECODING_FORMAT_CHOICES] = field(  # type: ignore
         default=None,
         metadata={"help": "special decoding format for advanced decoding."},
     )

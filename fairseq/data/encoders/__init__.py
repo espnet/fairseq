@@ -9,7 +9,6 @@ import os
 
 from fairseq import registry
 
-
 build_tokenizer, register_tokenizer, TOKENIZER_REGISTRY, _ = registry.setup_registry(
     "--tokenizer",
     default=None,

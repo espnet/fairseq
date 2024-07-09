@@ -9,7 +9,6 @@ from typing import List, Optional
 import torch.nn as nn
 import torch.nn.functional as F
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -31,7 +30,7 @@ class FairseqDropout(nn.Module):
         name: str,
         retain_dropout: bool = False,
         retain_dropout_modules: Optional[List[str]] = None,
-        **kwargs
+        **kwargs,
     ):
         if retain_dropout:
             if retain_dropout_modules is not None and self.module_name is None:

@@ -17,18 +17,14 @@ from fairseq.data.data_utils import compute_mask_indices
 from fairseq.data.dictionary import Dictionary
 from fairseq.dataclass import ChoiceEnum, FairseqDataclass
 from fairseq.models import BaseFairseqModel, register_model
-from fairseq.models.wav2vec.wav2vec2 import (
-    EXTRACTOR_MODE_CHOICES,
-    MASKING_DISTRIBUTION_CHOICES,
-    LAYER_TYPE_CHOICES,
-    ConvFeatureExtractionModel,
-    TransformerEncoder,
-)
+from fairseq.models.wav2vec.wav2vec2 import (EXTRACTOR_MODE_CHOICES,
+                                             LAYER_TYPE_CHOICES,
+                                             MASKING_DISTRIBUTION_CHOICES,
+                                             ConvFeatureExtractionModel,
+                                             TransformerEncoder)
 from fairseq.modules import GradMultiply, LayerNorm
-from fairseq.tasks.hubert_pretraining import (
-    HubertPretrainingConfig,
-    HubertPretrainingTask,
-)
+from fairseq.tasks.hubert_pretraining import (HubertPretrainingConfig,
+                                              HubertPretrainingTask)
 
 logger = logging.getLogger(__name__)
 
@@ -37,7 +33,7 @@ logger = logging.getLogger(__name__)
 class HubertConfig(FairseqDataclass):
     label_rate: float = II("task.label_rate")
 
-    extractor_mode: EXTRACTOR_MODE_CHOICES = field( # type: ignore
+    extractor_mode: EXTRACTOR_MODE_CHOICES = field(  # type: ignore
         default="default",
         metadata={
             "help": "mode for feature extractor. default has a single group "
@@ -57,10 +53,10 @@ class HubertConfig(FairseqDataclass):
     encoder_attention_heads: int = field(
         default=12, metadata={"help": "num encoder attention heads"}
     )
-    activation_fn: ChoiceEnum(utils.get_available_activation_fns()) = field( # type: ignore
+    activation_fn: ChoiceEnum(utils.get_available_activation_fns()) = field(  # type: ignore
         default="gelu", metadata={"help": "activation function to use"}
     )
-    layer_type: LAYER_TYPE_CHOICES = field( # type: ignore
+    layer_type: LAYER_TYPE_CHOICES = field(  # type: ignore
         default="transformer", metadata={"help": "layer type in encoder"}
     )
 
@@ -133,7 +129,7 @@ class HubertConfig(FairseqDataclass):
         default=0.65,
         metadata={"help": "probability of replacing a token with mask"},
     )
-    mask_selection: MASKING_DISTRIBUTION_CHOICES = field( # type: ignore
+    mask_selection: MASKING_DISTRIBUTION_CHOICES = field(  # type: ignore
         default="static", metadata={"help": "how to choose mask length"}
     )
     mask_other: float = field(
@@ -161,7 +157,7 @@ class HubertConfig(FairseqDataclass):
         default=0.0,
         metadata={"help": "probability of replacing a feature with 0"},
     )
-    mask_channel_selection: MASKING_DISTRIBUTION_CHOICES = field( # type: ignore
+    mask_channel_selection: MASKING_DISTRIBUTION_CHOICES = field(  # type: ignore
         default="static",
         metadata={"help": "how to choose mask length for channel masking"},
     )

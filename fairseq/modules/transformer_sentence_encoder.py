@@ -4,6 +4,7 @@
 # LICENSE file in the root directory of this source tree.
 
 import torch.nn as nn
+
 from fairseq.modules import MultiheadAttention
 from fairseq.modules.quant_noise import quant_noise as apply_quant_noise_
 

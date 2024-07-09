@@ -18,7 +18,6 @@ from typing import Callable, List, Optional
 
 from .meters import *
 
-
 # Aggregation contexts are considered "active" when inside the scope
 # created by the :func:`aggregate` context manager.
 _aggregators = OrderedDict()
@@ -329,7 +328,7 @@ def load_state_dict(state_dict):
 
 def xla_metrics_report():
     try:
-        import torch_xla.debug.metrics as met # type: ignore
+        import torch_xla.debug.metrics as met  # type: ignore
 
         print(met.metrics_report())
     except ImportError:

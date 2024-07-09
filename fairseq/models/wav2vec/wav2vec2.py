@@ -16,19 +16,13 @@ from fairseq import utils
 from fairseq.data.data_utils import compute_mask_indices
 from fairseq.dataclass import ChoiceEnum, FairseqDataclass
 from fairseq.distributed import fsdp_wrap
+from fairseq.distributed.fully_sharded_data_parallel import \
+    FullyShardedDataParallel
 from fairseq.models import BaseFairseqModel, register_model
-from fairseq.distributed.fully_sharded_data_parallel import FullyShardedDataParallel
-from fairseq.modules import (
-    Fp32GroupNorm,
-    Fp32LayerNorm,
-    GradMultiply,
-    GumbelVectorQuantizer,
-    LayerNorm,
-    MultiheadAttention,
-    RelPositionalEncoding,
-    SamePad,
-    TransposeLast,
-)
+from fairseq.modules import (Fp32GroupNorm, Fp32LayerNorm, GradMultiply,
+                             GumbelVectorQuantizer, LayerNorm,
+                             MultiheadAttention, RelPositionalEncoding,
+                             SamePad, TransposeLast)
 from fairseq.modules.checkpoint_activations import checkpoint_wrapper
 from fairseq.modules.conformer_layer import ConformerWav2Vec2EncoderLayer
 from fairseq.modules.transformer_sentence_encoder import init_bert_params
@@ -43,7 +37,7 @@ LAYER_TYPE_CHOICES = ChoiceEnum(["transformer", "conformer", "trf_adp"])
 
 @dataclass
 class Wav2Vec2Config(FairseqDataclass):
-    extractor_mode: EXTRACTOR_MODE_CHOICES = field( # type: ignore
+    extractor_mode: EXTRACTOR_MODE_CHOICES = field(  # type: ignore
         default="default",
         metadata={
             "help": "mode for feature extractor. default has a single group norm with d "
@@ -63,10 +57,10 @@ class Wav2Vec2Config(FairseqDataclass):
     encoder_attention_heads: int = field(
         default=12, metadata={"help": "num encoder attention heads"}
     )
-    activation_fn: ChoiceEnum(utils.get_available_activation_fns()) = field( # type: ignore
+    activation_fn: ChoiceEnum(utils.get_available_activation_fns()) = field(  # type: ignore
         default="gelu", metadata={"help": "activation function to use"}
     )
-    layer_type: LAYER_TYPE_CHOICES = field( # type: ignore
+    layer_type: LAYER_TYPE_CHOICES = field(  # type: ignore
         default="transformer", metadata={"help": "layer type in encoder"}
     )
     # dropouts
@@ -160,7 +154,7 @@ class Wav2Vec2Config(FairseqDataclass):
     mask_prob: float = field(
         default=0.65, metadata={"help": "probability of replacing a token with mask"}
     )
-    mask_selection: MASKING_DISTRIBUTION_CHOICES = field( # type: ignore
+    mask_selection: MASKING_DISTRIBUTION_CHOICES = field(  # type: ignore
         default="static", metadata={"help": "how to choose mask length"}
     )
     mask_other: float = field(
@@ -197,7 +191,7 @@ class Wav2Vec2Config(FairseqDataclass):
         default=0.0, metadata={"help": "probability of replacing a feature with 0"}
     )
     mask_channel_before: bool = False
-    mask_channel_selection: MASKING_DISTRIBUTION_CHOICES = field( # type: ignore
+    mask_channel_selection: MASKING_DISTRIBUTION_CHOICES = field(  # type: ignore
         default="static",
         metadata={"help": "how to choose mask length for channel masking"},
     )
@@ -291,15 +285,9 @@ class Wav2Vec2Config(FairseqDataclass):
     fp16: bool = field(default=False, metadata={"help": "If fp16 is being used"})
 
     # Adapter num
-    adp_num: int = field(
-        default=-1
-    )
-    adp_dim: int = field(
-        default=64
-    )
-    adp_act_fn: str = field(
-        default="relu"
-    )
+    adp_num: int = field(default=-1)
+    adp_dim: int = field(default=64)
+    adp_act_fn: str = field(default="relu")
     adp_trf_idx: str = field(
         default="all",
     )
@@ -975,7 +963,9 @@ class TransformerEncoder(nn.Module):
             if args.adp_trf_idx == "all":
                 use_adp = True
             else:
-                adp_trf_idx = list(range(*[int(g) for g in args.adp_trf_idx.split(":")]))
+                adp_trf_idx = list(
+                    range(*[int(g) for g in args.adp_trf_idx.split(":")])
+                )
                 if kwargs.get("layer_idx", None) in adp_trf_idx:
                     use_adp = True
             if use_adp:
@@ -1009,7 +999,12 @@ class TransformerEncoder(nn.Module):
             layer = checkpoint_wrapper(layer)
         return layer
 
-    def __init__(self, args: Wav2Vec2Config, skip_pos_conv: bool = False, override_encoder_layer: int = None):
+    def __init__(
+        self,
+        args: Wav2Vec2Config,
+        skip_pos_conv: bool = False,
+        override_encoder_layer: int = None,
+    ):
         super().__init__()
 
         self.dropout = args.dropout
@@ -1052,9 +1047,11 @@ class TransformerEncoder(nn.Module):
                 self.embedding_dim,
                 args.conv_pos,
                 args.conv_pos_groups,
-                is_batch_norm=args.conv_pos_batch_norm
-                if hasattr(args, "conv_pos_batch_norm")
-                else False,
+                is_batch_norm=(
+                    args.conv_pos_batch_norm
+                    if hasattr(args, "conv_pos_batch_norm")
+                    else False
+                ),
             )
 
         if override_encoder_layer is None:
@@ -1063,7 +1060,10 @@ class TransformerEncoder(nn.Module):
             encoder_layers = override_encoder_layer
 
         self.layers = nn.ModuleList(
-            [self.build_encoder_layer(args, layer_idx=ii) for ii in range(encoder_layers)]
+            [
+                self.build_encoder_layer(args, layer_idx=ii)
+                for ii in range(encoder_layers)
+            ]
         )
         self.layer_norm_first = args.layer_norm_first
         self.layer_norm = LayerNorm(self.embedding_dim)
@@ -1127,9 +1127,8 @@ class TransformerEncoder(nn.Module):
                 if isinstance(layer, FullyShardedDataParallel):
                     layer_check = layer.unwrapped_module
                 if (corpus_key is None) or (
-                    not isinstance(layer_check, (
-                        TransformerSentenceEncoderWithAdapterLayer,
-                        )
+                    not isinstance(
+                        layer_check, (TransformerSentenceEncoderWithAdapterLayer,)
                     )
                 ):
                     x, (z, lr) = layer(
@@ -1405,7 +1404,6 @@ class AdapterFast(nn.Module):
         else:
             raise ValueError(f"unsupported {act_fn}")
 
-
         self.input_dim = input_dim
         self.reset_parameters()
 
@@ -1426,7 +1424,7 @@ class AdapterFast(nn.Module):
     def forward(self, x, adapter_id):
         ii = adapter_id
         h = x
-        h = F.layer_norm(h, (self.input_dim, ), self.ln_W[ii], self.ln_b[ii])
+        h = F.layer_norm(h, (self.input_dim,), self.ln_W[ii], self.ln_b[ii])
         h = F.linear(h, self.W_a[ii], self.b_a[ii])
         h = self.act_fn(h)
         h = F.linear(h, self.W_b[ii], self.b_b[ii])
@@ -1434,8 +1432,9 @@ class AdapterFast(nn.Module):
         return outputs
 
     def extra_repr(self):
-        return ('adapter={}, input_dim={}, hidden_dim={}'.format(self.adapter_num, self.input_dim, self.hidden_dim))
-
+        return "adapter={}, input_dim={}, hidden_dim={}".format(
+            self.adapter_num, self.input_dim, self.hidden_dim
+        )
 
 
 class TransformerSentenceEncoderWithAdapterLayer(TransformerSentenceEncoderLayer):
@@ -1468,12 +1467,13 @@ class TransformerSentenceEncoderWithAdapterLayer(TransformerSentenceEncoderLayer
             activation_dropout=activation_dropout,
             activation_fn=activation_fn,
             layer_norm_first=layer_norm_first,
-
         )
 
         self.adapter_num = adapter_num
         self.adapter_dim = adapter_dim
-        self.adapter_layer = AdapterFast(adapter_num, self.embedding_dim, self.adapter_dim, adapter_act_fn)
+        self.adapter_layer = AdapterFast(
+            adapter_num, self.embedding_dim, self.adapter_dim, adapter_act_fn
+        )
 
     def forward(
         self,
