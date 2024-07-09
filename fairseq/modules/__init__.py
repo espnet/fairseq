@@ -3,9 +3,11 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
-from .espnet_multihead_attention import (ESPNETMultiHeadedAttention,
-                                         RelPositionMultiHeadedAttention,
-                                         RotaryPositionMultiHeadedAttention)
+from .espnet_multihead_attention import (
+    ESPNETMultiHeadedAttention,
+    RelPositionMultiHeadedAttention,
+    RotaryPositionMultiHeadedAttention,
+)
 from .fp32_group_norm import Fp32GroupNorm
 from .grad_multiply import GradMultiply
 from .gumbel_vector_quantizer import GumbelVectorQuantizer

@@ -10,9 +10,11 @@ import torch
 import torch.nn as nn
 from torch import Tensor
 
-from fairseq.token_generation_constraints import (ConstraintState,
-                                                  OrderedConstraintState,
-                                                  UnorderedConstraintState)
+from fairseq.token_generation_constraints import (
+    ConstraintState,
+    OrderedConstraintState,
+    UnorderedConstraintState,
+)
 
 
 class Search(nn.Module):

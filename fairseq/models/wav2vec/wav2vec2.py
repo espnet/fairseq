@@ -16,13 +16,19 @@ from fairseq import utils
 from fairseq.data.data_utils import compute_mask_indices
 from fairseq.dataclass import ChoiceEnum, FairseqDataclass
 from fairseq.distributed import fsdp_wrap
-from fairseq.distributed.fully_sharded_data_parallel import \
-    FullyShardedDataParallel
+from fairseq.distributed.fully_sharded_data_parallel import FullyShardedDataParallel
 from fairseq.models import BaseFairseqModel, register_model
-from fairseq.modules import (Fp32GroupNorm, Fp32LayerNorm, GradMultiply,
-                             GumbelVectorQuantizer, LayerNorm,
-                             MultiheadAttention, RelPositionalEncoding,
-                             SamePad, TransposeLast)
+from fairseq.modules import (
+    Fp32GroupNorm,
+    Fp32LayerNorm,
+    GradMultiply,
+    GumbelVectorQuantizer,
+    LayerNorm,
+    MultiheadAttention,
+    RelPositionalEncoding,
+    SamePad,
+    TransposeLast,
+)
 from fairseq.modules.checkpoint_activations import checkpoint_wrapper
 from fairseq.modules.conformer_layer import ConformerWav2Vec2EncoderLayer
 from fairseq.modules.transformer_sentence_encoder import init_bert_params

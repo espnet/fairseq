@@ -12,8 +12,9 @@ from fairseq.dataclass.configs import DistributedTrainingConfig
 from fairseq.distributed import utils as dist_utils
 
 try:
-    from fairscale.nn.data_parallel import \
-        FullyShardedDataParallel as FSDP  # type: ignore
+    from fairscale.nn.data_parallel import (
+        FullyShardedDataParallel as FSDP,  # type: ignore
+    )
 
     has_FSDP = True
 except ImportError:

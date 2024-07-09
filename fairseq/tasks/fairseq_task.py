@@ -13,8 +13,7 @@ import torch
 from omegaconf import DictConfig
 
 from fairseq import search, tokenizer, utils
-from fairseq.data import (Dictionary, FairseqDataset, data_utils, encoders,
-                          iterators)
+from fairseq.data import Dictionary, FairseqDataset, data_utils, encoders, iterators
 from fairseq.dataclass import FairseqDataclass
 from fairseq.dataclass.utils import gen_parser_from_dataclass
 from fairseq.logging import metrics
@@ -412,8 +411,10 @@ class FairseqTask(object):
                 compute_alignment=getattr(args, "print_alignment", False),
             )
 
-        from fairseq.sequence_generator import (SequenceGenerator,
-                                                SequenceGeneratorWithAlignment)
+        from fairseq.sequence_generator import (
+            SequenceGenerator,
+            SequenceGeneratorWithAlignment,
+        )
 
         # Choose search strategy. Defaults to Beam Search.
         sampling = getattr(args, "sampling", False)

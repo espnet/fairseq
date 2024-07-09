@@ -11,15 +11,17 @@ from typing import Any, List, Optional
 import torch
 from omegaconf import II, MISSING
 
-from fairseq.dataclass.constants import (DATASET_IMPL_CHOICES,
-                                         DDP_BACKEND_CHOICES,
-                                         DDP_COMM_HOOK_CHOICES,
-                                         GENERATION_CONSTRAINTS_CHOICES,
-                                         GENERATION_DECODING_FORMAT_CHOICES,
-                                         LOG_FORMAT_CHOICES,
-                                         PIPELINE_CHECKPOINT_CHOICES,
-                                         PRINT_ALIGNMENT_CHOICES,
-                                         ZERO_SHARDING_CHOICES)
+from fairseq.dataclass.constants import (
+    DATASET_IMPL_CHOICES,
+    DDP_BACKEND_CHOICES,
+    DDP_COMM_HOOK_CHOICES,
+    GENERATION_CONSTRAINTS_CHOICES,
+    GENERATION_DECODING_FORMAT_CHOICES,
+    LOG_FORMAT_CHOICES,
+    PIPELINE_CHECKPOINT_CHOICES,
+    PRINT_ALIGNMENT_CHOICES,
+    ZERO_SHARDING_CHOICES,
+)
 
 
 @dataclass
