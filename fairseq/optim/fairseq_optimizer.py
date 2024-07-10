@@ -3,10 +3,12 @@
 # This source code is licensed under the MIT license found in the
 # LICENSE file in the root directory of this source tree.
 
+from collections import defaultdict
+
 import torch
+
 from fairseq import utils
 from fairseq.dataclass.utils import gen_parser_from_dataclass
-from collections import defaultdict
 
 
 class FairseqOptimizer(object):

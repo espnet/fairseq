@@ -19,8 +19,9 @@ from typing import Any, Dict, List, Mapping, Optional
 
 import torch
 import torch.distributed as dist
-from fairseq.dataclass.configs import DistributedTrainingConfig, FairseqConfig
 from omegaconf import open_dict
+
+from fairseq.dataclass.configs import DistributedTrainingConfig, FairseqConfig
 
 try:
     import torch_xla.core.xla_model as xm
