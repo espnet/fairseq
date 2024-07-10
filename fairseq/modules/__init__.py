@@ -16,10 +16,14 @@ from .multihead_attention import MultiheadAttention
 from .positional_encoding import RelPositionalEncoding
 from .same_pad import SamePad, SamePad2d
 from .transpose_last import TransposeLast
+from .gelu import gelu, gelu_accurate
+
 
 __all__ = [
     "Fp32GroupNorm",
     "Fp32LayerNorm",
+    "gelu",
+    "gelu_accurate",
     "GradMultiply",
     "GumbelVectorQuantizer",
     "LayerNorm",
