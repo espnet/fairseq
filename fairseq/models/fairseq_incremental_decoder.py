@@ -6,10 +6,10 @@
 import logging
 from typing import Dict, Optional
 
-from fairseq.incremental_decoding_utils import with_incremental_state
-from fairseq.models import FairseqDecoder
 from torch import Tensor
 
+from fairseq.incremental_decoding_utils import with_incremental_state
+from fairseq.models import FairseqDecoder
 
 logger = logging.getLogger(__name__)
 
