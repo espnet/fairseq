@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools>=40.8.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fairseq"
+version = "2024.07.09"
+dynamic = ["readme"]
+authors = [
+    {name="Nelson Yalta", email="nelson.yalta@ieee.org"}
+]
+description = "Python code for Fairseq maintained by ESPnet"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Operating System :: POSIX :: Linux",
+    "License :: OSI Approved :: Apache Software License",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+requires-python = ">=3.9"
+license = { "text" = "Apache Software License" }
+dependencies = [
+    "cffi",
+    "cython",
+    "hydra-core>=1.0.7",
+    "omegaconf>2.1",
+    "numpy>=1.21.3",
+    "regex",
+    "sacrebleu>=1.4.12",
+    "torch>=1.13",
+    "tqdm",
+    "bitarray",
+    "torchaudio>=0.8.0",
+    "scikit-learn",
+    "packaging",
+]
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.md"], content-type = "text/markdown"}
+
+[project.urls]
+Homepage = "https://github.com/espnet/fairseq"
+
+[tool.setuptools.packages.find]
+include = ["fairseq*"]
+
+[project.optional-dependencies]
+test = [
+    "flake8",
+    "flake8-docstrings",
+    "black",
+    "pytest",
+    "pytest-timeouts",
+    "pytest-pythonpath",
+    "pytest-cov",
+    "pycodestyle",
+]
+
+all = [
+    "fairseq[test]",
+]
