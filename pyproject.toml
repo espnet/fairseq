@@ -30,7 +30,7 @@ dependencies = [
     "torch>=1.10",
     "tqdm",
     "bitarray",
-    "torchaudio>=0.8.0",
+    "torchaudio",
     "scikit-learn",
     "packaging",
 ]
