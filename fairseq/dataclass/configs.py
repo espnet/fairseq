@@ -1146,4 +1146,4 @@ class FairseqConfig(FairseqDataclass):
     scoring: Any = None
     bpe: Any = None
     tokenizer: Any = None
-    ema: EMAConfig = field(default_factory=EMAConfig
+    ema: EMAConfig = field(default_factory=EMAConfig)
