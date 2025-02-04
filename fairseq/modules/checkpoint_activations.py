@@ -99,7 +99,7 @@ def unpack_kwargs(
 
 
 def split_non_tensors(
-    mixed: Union[torch.Tensor, Tuple[Any]]
+    mixed: Union[torch.Tensor, Tuple[Any]],
 ) -> Tuple[Tuple[torch.Tensor], Dict[str, List[Any]]]:
     """
     Usage::
