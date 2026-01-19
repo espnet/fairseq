@@ -879,7 +879,7 @@ class DiverseSiblingsSearch(Search):
         final_scores = torch.empty(0).to(lprobs)
         final_indices = torch.LongTensor().to(device=lprobs.device)
         final_beams = torch.LongTensor().to(device=lprobs.device)
-        (final_scores, final_indices) = torch.topk(
+        final_scores, final_indices = torch.topk(
             torch.stack(s_list, dim=1).view(bsz, -1),
             k,
         )
