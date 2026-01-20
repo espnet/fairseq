@@ -14,7 +14,6 @@ from hydra.core.config_store import ConfigStore
 
 from .fairseq_task import FairseqTask  # noqa
 
-
 # register dataclass
 TASK_DATACLASS_REGISTRY = {}
 TASK_REGISTRY = {}
